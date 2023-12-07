@@ -1,8 +1,8 @@
 #ifndef _LINKEDLIST_H
 #define _LINKEDLIST_H
 struct Node;
-struct Node *initialize(void);
 void append(struct Node **, int);
-void pop(struct Node **);
+int pop(struct Node **);
+void delete_list( struct Node **linked_list );
 void print_list(struct Node *);
 #endif

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 struct Node
 {
@@ -7,40 +8,61 @@ struct Node
     struct Node* next;
 };
 
-struct  Node* initialize(void)
+void append( struct Node** linked_list, int data )
 {
-    struct Node* init_list;
-    if ( (init_list = malloc( sizeof(struct Node)) ) == NULL )
+    struct Node *temp;
+    if ( (temp = malloc( sizeof(struct Node)) ) == NULL )
     {
-        printf
+       printf
         (
             "%s : at line %d :: %s\n",
             __FILE__,
             __LINE__,
-            "LinkedListInitializationError: Failed to initialize linked list"
+            "LinkedListNodeCreationError: Failed to createlinked list"
         );
-        return NULL;
+        return;
     }
 
-    return init_list;
+    temp->data   = data;
+    temp->next   = *linked_list;
+    *linked_list = temp;
 }
 
-void append( struct Node** linked_list, int data )
+int pop ( struct Node** linked_list )
 {
-    return;
+    if (*linked_list != NULL)
+    {
+        struct Node *temp = *linked_list;
+        int num = temp->data;
+
+        *linked_list = (*linked_list)->next;
+
+        free(temp);
+
+        return num;
+    }
+    return INT_MIN;
 }
 
-void pop ( struct Node** linked_lists )
+void delete_list( struct Node **linked_list )
 {
-    return;
+    while (*linked_list != NULL)
+    {
+        pop(linked_list);
+    }
 }
 
 void print_list( struct Node* linked_list)
 {
-    struct Node *temp = linked_list;
-
-    while ( temp != NULL )
+    if (linked_list != NULL)
     {
-        temp = temp->next;
+        struct Node *temp = linked_list;
+
+        while ( temp != NULL )
+        {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
     }
+    printf("NULL\n");
 }
