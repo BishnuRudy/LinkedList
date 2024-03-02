@@ -16,14 +16,53 @@ void push(Node **list, int data) {
 }
 
 void insert_at(Node **list, int index, int value) {
-    int idx = 0;
+    Node *node = create_node(value);
+    
     if (index == 0) {
-        Node *node = create_node(value);
         node->next = *list;
-        (*list)->next = node;
+        *list = node;
         return;
     }
+
+    int idx = 0;
+    Node *current = *list;
+    while (current && idx < index) {
+        current = current->next;
+        idx++;
+    }
+    
+    if (current->next == NULL) {
+        current->next = node;
+    } else {
+        node->next = current->next;
+        current->next = node;
+    }
 }
+
+void remove_at(Node **list, int index) {
+    if (*list == NULL)
+        return;
+    if (index == 0) {
+        pop(list);
+        return;
+    }
+
+    int idx = 0;
+    Node *current = *list;
+    Node *prev = NULL;
+
+    while ((current && idx != index)) {
+        prev = current;
+        current = current->next;
+        idx++;
+    }
+    if (current == NULL) return;
+    
+    Node *temp = current;
+    prev->next = current->next;
+    free(temp);
+}
+
 
 void print_list(Node *list) {
     Node *current = list;
