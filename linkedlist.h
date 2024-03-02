@@ -1,8 +1,8 @@
-#ifndef _LINKEDLIST_H
-#define _LINKEDLIST_H
-struct Node;
-void append(struct Node **, int);
-int pop(struct Node **);
-void delete_list( struct Node **linked_list );
-void print_list(struct Node *);
-#endif
+#include "node/node.h"
+
+Node *initialize_list(int data);
+void push(Node **list, int data);
+void pop(Node **list);
+void insert(Node **list);
+void print_list(Node *list);
+void clear_list(Node **list);

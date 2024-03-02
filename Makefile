@@ -1,7 +1,8 @@
+output: linkedlist.o node.o main.c
+	gcc -Wall -Wextra -fsanitize=address linkedlist.c node/node.c main.c -o output
 
-output: main.o linkedlist.o
-	gcc -Wall -Wextra -fsanitize=address  main.c linkedlist.c -o output
-
+node.o: node/node.c node/node.h
+	gcc -c node/node.c
 
 clean:
 	rm *.o output

@@ -1,68 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include "linkedlist.h"
+#include "node/node.h"
 
-struct Node
-{
-    int data;
-    struct Node* next;
-};
 
-void append( struct Node** linked_list, int data )
-{
-    struct Node *temp;
-    if ( (temp = malloc( sizeof(struct Node)) ) == NULL )
-    {
-       printf
-        (
-            "%s : at line %d :: %s\n",
-            __FILE__,
-            __LINE__,
-            "LinkedListNodeCreationError: Failed to createlinked list"
-        );
+Node *initialize_list(int data) {
+    Node *node = create_node(data);
+    return node;
+}
+
+void push(Node **list, int data) {
+    Node *node = create_node(data);
+    node->next = *list;
+    *list = node;
+}
+
+void insert_at(Node **list, int index, int value) {
+    int idx = 0;
+    if (index == 0) {
+        Node *node = create_node(value);
+        node->next = *list;
+        (*list)->next = node;
         return;
     }
-
-    temp->data   = data;
-    temp->next   = *linked_list;
-    *linked_list = temp;
 }
 
-int pop ( struct Node** linked_list )
-{
-    if (*linked_list != NULL)
-    {
-        struct Node *temp = *linked_list;
-        int num = temp->data;
-
-        *linked_list = (*linked_list)->next;
-
-        free(temp);
-
-        return num;
-    }
-    return INT_MIN;
-}
-
-void delete_list( struct Node **linked_list )
-{
-    while (*linked_list != NULL)
-    {
-        pop(linked_list);
-    }
-}
-
-void print_list( struct Node* linked_list)
-{
-    if (linked_list != NULL)
-    {
-        struct Node *temp = linked_list;
-
-        while ( temp != NULL )
-        {
-            printf("%d -> ", temp->data);
-            temp = temp->next;
-        }
+void print_list(Node *list) {
+    Node *current = list;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
     }
     printf("NULL\n");
+}
+
+void pop(Node **list) {
+    if (!(*list)) return;
+    Node *current = *list;
+    *list = (*list)->next;
+    free(current);
+}
+
+void clear_list(Node **list) {
+    while (*list != NULL) {
+        pop(list);
+    }
 }
